@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome | Hotel Transylvania</title>
+    <link rel="icon" href="/images/icon.png" type="image/icon type">
+    <link rel="stylesheet" href="/css/index.css" >
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/index.js"></script>
+</head>
+<body class="container">
+    <div id="actions" class="actions d-flex flex-column">
+        <div class="p-2 action btn" style="width: 9.6em" onclick="book()"><img class="book-img sec-img" src="/images/bloodthirsty.png"><br><img class="book-img main-img" id="book" src="/images/book.png"></div>
+        <div class="p-2 action btn" style="width: 36em" onclick="checkAvailability()"><img class="check-img sec-img" src="/images/check-bloodthirsty.png"><br><img class="check-img main-img" src="/images/check.png"></div>
+        <div class="p-2 action btn" style="width: 29.2em" onclick="cancelBooking()"><img class="cancel-img sec-img" src="/images/cancel-bloodthirsty.png"><br><img class="cancel-img main-img" src="/images/cancel.png"> </div>
+        <div class="search">
+            <input placeholder="Booking ID" id="booking_id" >
+            <button onclick="searchBooking()" class="searchbar">search</button>
+            <button onclick="$('.search').fadeOut(1000);" class="close">&times</button>
+        </div>
+    </div>
+    <div class="availability">
+        <div class="btns"><button onclick="checkAvailability()">&#x27F3;</button><button onclick="$('.availability').fadeOut(1000);">&times;</button></div>
+        <p>Single bed<span class="availableCount" id="availableSingle">0</span></p>
+        <p>Double bed<span class="availableCount" id="availableDouble">0</span></p>
+        <p>Triple bed<span class="availableCount" id="availableTriple">0</span></p>
+        <p>Quad bed<span class="availableCount" id="availableQuad">0</span></p>
+        <p>King-size bed<span class="availableCount" id="availableKing">0</span></p>
+    </div>
+    <div class="messenger">
+        <img class="bat" src="/images/bat.png">
+    </div>
+    <div class="call">
+        <img class="number" src="/images/contact.png">
+    </div>
+
+    <div class="image-container" id="image-container">
+        <div id="room-gallery" class="room-gallery d-flex flex-row">
+            <div class="col-auto images">
+                <img src="/images/rooms/single/1.webp">
+            </div>
+            <div class="col-auto images">
+                <img src="/images/rooms/double/1.webp">
+            </div>
+            <div class="col-auto images">
+                <img src="/images/rooms/triple/1.webp">
+            </div>
+        </div>
+        <div class="arrow-container"><img onclick="previousPic()" class="direction-Arrow" id="direction-Arrow-left" src="/images/lArrow.png"></div>
+        <div class="arrow-container arrow-right"><img onclick="nextPic()" class="direction-Arrow" id="direction-Arrow-right" src="/images/rArrow.png"></div>
+    </div>
+
+    <div class="room-navigation" id="room-navigation">
+        <div onclick="showRooms()" class="rooms-btn">
+            <h2>Rooms</h2>
+            <img id="caret-img" src="/images/caretdown.png">
+        </div>
+
+        <div class="room-selectors">
+            <div onclick="addImages('single')" class="room-name"><h3 id="single">Single</h3></div>
+            <div onclick="addImages('double')" class="room-name"><h3 id="double">Double</h3></div>
+            <div onclick="addImages('triple')" class="room-name"><h3 id="triple">Triple</h3></div>
+            <div onclick="addImages('quad')" class="room-name"><h3 id="quad">Quad</h3></div>
+            <div onclick="addImages('king')" class="room-name"><h3 id="king">King</h3></div>
+        </div>
+
+    </div>
+
+</body>
+</html>

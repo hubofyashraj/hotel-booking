@@ -1,0 +1,166 @@
+html{
+    width: 100%;
+    height: 100%;
+    user-select: none;
+}
+
+body{
+    background: url('/images/background_image.jpg') no-repeat;
+    background-size: cover;
+    background-position-y: top;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+.scroll{
+    background: url('/images/scroll4.png') no-repeat;
+    background-size: 100% 100%;
+    background-position-y: center;
+    width: 55%;
+    height: 100%;
+    position: absolute;
+    right: 10%;
+    top: 50%;
+    transform: translateY(-50%) rotateY(0deg) ;
+}
+
+.header{ 
+    font-family: "Comic Sans MS";
+    font-size: 1.6em;
+    position: absolute;
+    top: 13%;
+    left: 50%;
+    transform: translateX(-50%) skewX(-20deg);
+}
+
+.header #booking_id{
+}
+
+#homeBtn{
+
+    border: none;
+    width: 8em;
+    height: 2em;
+}
+
+#homeBtn img{
+    width: 100%;
+    cursor: pointer;
+}
+#homeBtn p{
+    position: absolute;
+    top: 2em;
+    left: 2em;
+    font-size: 20px;
+    font-family: "Comic Sans MS";
+    color: #f1cfa0;
+    cursor: pointer;
+}
+
+.form{
+    width: 67%;
+    height: 55%;
+    position: absolute;
+    left: 38%;
+    top: 50%;
+    transform: translateX(-40%) translateY(-50%) ;
+    gap: 10px;
+    padding-left: 10%;
+}
+
+.form div{
+    width: 100%;
+    color: red;
+    height: 2em;
+    padding-left: 20px;
+    font-family: "Comic Sans MS";
+    font-size: 14px;
+}
+
+.form .room{
+    margin-left: 10%;
+}
+
+.submitbtn{
+    position: absolute;
+    color: #f1cfa0;
+    bottom: 13%;
+    right: 10%;
+    transform: translateX(6em);
+    border: 1px solid rgb(248, 201, 155);
+    background: rgba(194, 121, 45, 0.69);
+    font-family: "Comic Sans MS";
+    font-size: 1.3em;
+    visibility: visible;
+}
+
+
+
+.cancel{
+    position: absolute;
+    background: rgba(0,0,0,0.8);
+    right: 10%;
+    bottom: 12em;
+    width: 18em;
+    height: fit-content;
+    transform: translateX(6em);
+    display: none;
+}
+
+.cancel p{
+    color: #f1cfa0;
+    padding-left: 20px;
+    padding-top: 5px;
+}
+
+.cancel .status{
+    background-color: rgba(0,255,0);
+    position: absolute;
+    bottom: 0;
+    border: none;
+    height: fit-content;
+    width: 100%;
+    display: none;
+}
+
+.status p{
+    color: rgba(0,0,0,0.8);
+}
+
+button:hover{
+    opacity: 70%;
+}
+
+.cancelBar{
+    position: absolute;
+    height: 2em;
+    border: none;
+    background-color: transparent;
+    color: #f1cfa0;
+    text-align: left;
+}
+
+.close{
+    position: absolute;
+    right: 0;
+    height: 2em;
+    width: 2em;
+    border: none;
+    background-color: transparent;
+    color: #f1cfa0;
+    text-align: center;
+}
+
+
+
+input{
+    float: left;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: #f1cfa0;
+    height: 2em;
+    padding-left: 20px;
+    padding-bottom: 1%;
+}

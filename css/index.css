@@ -1,0 +1,260 @@
+html{
+    width: 100%;
+    height: 100%;
+    user-select: none;
+}
+
+body{
+    background: url('/images/background0.jpg') no-repeat;
+    background-size: cover;
+    background-position-y: center;
+    overflow-y: hidden;
+}
+
+.availability{
+    position: absolute;
+    background: rgba(0,0,0,0.8);
+    width: 20em;
+    padding: 2em;
+    top: 2em;
+    left: 50em;
+    display: none;
+}
+
+.availability .btns{
+    position: relative;
+    height: 2em;
+    transform: translateY(-100%);
+}
+
+.availability .btns button{
+    background: none;
+    color: #f1cfa0;
+    border: none;
+    height: 1.5em;
+    font-size: 22px;
+    text-align: center;
+    width: 50%;
+}
+
+.availability .btns. button:hover{
+    opacity: 70%;
+}
+
+.availability p{
+    font-size: 18px;
+    color: #f1cfa0;
+    padding: 0 10px 0 10px;
+}
+
+.availability p span{
+    float: right;
+}
+
+.search{
+    position: absolute;
+    background: rgba(0,0,0,0.8);
+    left: 1em;
+    top: 17em;
+    width: 18em;
+    height: 2em;
+    display: none;
+}
+
+button:hover{
+    opacity: 70%;
+}
+
+.searchbar{
+    position: absolute;
+    height: 2em;
+    border: none;
+    background-color: transparent;
+    color: #f1cfa0;
+    text-align: left;
+}
+
+.close{
+    position: absolute;
+    right: 0;
+    height: 2em;
+    width: 2em;
+    border: none;
+    background-color: transparent;
+    color: #f1cfa0;
+    text-align: center;
+}
+
+
+
+input{
+    float: left;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: #f1cfa0;
+    height: 2em;
+    padding-left: 20px;
+    padding-bottom: 1%;
+}
+
+
+.actions{
+    width: 500px;
+    height: 600px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+}
+
+.action{
+    height: 83px;
+}
+
+.action img{
+    height: 100%;
+    float: left;
+}
+
+.action:hover img{
+    transition: max-height 5s;
+    max-height: 50px;
+}
+
+.main-img{
+    transform: translateY(-100%);
+}
+
+.messenger{
+    float: right;
+}
+
+.messenger .bat{
+    float: right;
+    height: 100px;
+    opacity: 60%;
+}
+
+.call{
+    position: absolute;
+    bottom: 10%;
+}
+
+.call .number{
+    height: 60px;
+    opacity: 70%;
+    transform: skew(-25deg,25deg) scaleX(1.5) rotateZ(-27deg)  ;
+}
+
+.image-container{
+    position: absolute;
+    bottom: 2%;
+    right: 10%;
+    width: 28%;
+    height: 35%;
+    overflow: hidden;
+    transform: skew(1deg, -5deg);
+    display: none;
+}
+
+.image-container:hover{
+
+}
+
+#direction-Arrow-left{
+    border-radius: 5px;
+}
+
+.arrow-right{
+    transform: skewY(40deg);
+    right: 0;
+    border-radius: 5px;
+}
+
+.arrow-container{
+    position: absolute;
+    transform: translateY(-180%);
+    opacity: 0.1;
+}
+
+.arrow-container:hover {
+    opacity: 0.5;
+}
+
+.room-gallery{
+    background: rgba(39, 41, 55, 0.81);
+    height: 100%;
+    width: 100%;
+    position: relative;
+    bottom: 15%;
+    right: 5%;
+    transform: skew(8deg,5deg);
+    overflow-x: hidden;
+    overflow-y: hidden;
+    gap: 20px;
+    cursor: grab;
+}
+
+.room-gallery div{
+    width: inherit;
+}
+
+.room-gallery div img{
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.room-navigation{
+    position: absolute;
+    width: 5%;
+    height: 40%;
+    transform: skew(8deg, -7deg);
+    right: 3.8%;
+    bottom: 3%;
+}
+
+.rooms-btn{
+    transform: translateY(40%);
+    
+
+}
+
+
+.rooms-btn:hover h2{
+    font-size: 20px;
+}
+
+.rooms-btn h2{
+    font-family: "Comic Sans MS";
+    font-size: 22px;
+    color: rgba(133, 100, 53, 0.73);
+}
+
+#caret-img{
+    width: 100%;
+    transform: rotateZ(180deg);
+}
+
+div h3{
+    color: rgba(133, 100, 53, 0.73);
+    font-size: 20px;
+}
+
+
+
+.room-selectors{
+    position: relative;
+    top: 30px;
+    left: 10px;
+    display: none;
+}
+
+.room-name{
+    height: 2em;
+}
+
+.room-name:hover h3{
+    font-size: 18px;
+}
