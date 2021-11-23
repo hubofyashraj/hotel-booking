@@ -2,9 +2,9 @@
   "name": "hotel-booking",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "server/server.js",
   "scripts": {
-    "test": "nodemon server.js"
+    "test": "nodemon server/server.js"
   },
   "keywords": [],
   "author": "",
@@ -17,5 +17,9 @@
     "nocache": "^3.0.1",
     "pg": "^8.7.1",
     "pg-cursor": "^2.7.1"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "express-session": "^1.17.2"
   }
 }

@@ -2,6 +2,7 @@
 <html lang="en" >
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome | Hotel Transylvania</title>
     <link rel="icon" href="/images/icon.png" type="image/icon type">
     <link rel="stylesheet" href="/css/index.css" >
@@ -30,14 +31,14 @@
         <p>King-size bed<span class="availableCount" id="availableKing">0</span></p>
     </div>
     <div class="messenger">
-        <img class="bat" src="/images/bat.png">
+        <img alt="login" onclick="location.href='/login'" class="bat" src="/images/bat.png">
     </div>
     <div class="call">
         <img class="number" src="/images/contact.png">
     </div>
 
     <div class="image-container" id="image-container">
-        <div id="room-gallery" class="room-gallery d-flex flex-row">
+        <div id="room-gallery" class="room-gallery d-flex flex-column">
             <div class="col-auto images">
                 <img src="/images/rooms/single/1.webp">
             </div>
@@ -48,8 +49,8 @@
                 <img src="/images/rooms/triple/1.webp">
             </div>
         </div>
-        <div class="arrow-container"><img onclick="previousPic()" class="direction-Arrow" id="direction-Arrow-left" src="/images/lArrow.png"></div>
-        <div class="arrow-container arrow-right"><img onclick="nextPic()" class="direction-Arrow" id="direction-Arrow-right" src="/images/rArrow.png"></div>
+<!--        <div class="arrow-container"><img onclick="previousPic()" class="direction-Arrow" id="direction-Arrow-left" src="/images/lArrow.png"></div>-->
+<!--        <div class="arrow-container arrow-right"><img onclick="nextPic()" class="direction-Arrow" id="direction-Arrow-right" src="/images/rArrow.png"></div>-->
     </div>
 
     <div class="room-navigation" id="room-navigation">

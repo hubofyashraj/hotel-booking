@@ -1,0 +1,56 @@
+body{
+    background: #39ff02;
+    color: crimson;
+}
+
+.searcher{
+    width: 50%;
+    height: 2.5em;
+    margin: 1em auto;
+}
+
+.navbar-brand{
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+main{
+    height: calc( 100% - 5em )
+}
+
+.searcher input{
+    text-align: center;
+}
+
+
+.searcher .btn{
+    float: right;
+}
+
+.user{
+    position: absolute;
+    width: fit-content;
+    right: 0;
+    margin-right: 0;
+}
+
+.user p, #user_id{
+    position: relative;
+    float: left;
+    user-select: none;
+    margin: auto 0;
+}
+
+.idd{
+    position: absolute;
+    width: 10em;
+    height: 4em;
+    padding-top: 1em;
+    background-image: linear-gradient(to bottom right, rgb(0, 0, 0), rgba(24, 24, 24, 0.94));
+}
+
+.idd p{
+    left: 50%;
+    transform: translateX(-50%);
+}

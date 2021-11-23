@@ -1,8 +1,15 @@
 const nocache = require('nocache')
 const express = require("express");
-const bodyParser = require("body-parser")
+const sessions = require('express-session');
+const cookieParser = require("cookie-parser");
+
+const oneDay = 1000 * 60 * 60 * 24;
+
+
+const bodyParser = require("body-parser");
 const { Client,Pool } = require("pg")
 let timeout = require('connect-timeout');
+const path = require('path')
 const Cursor = require('pg-cursor')
 const pool = new Pool({
     user: 'postgres',
@@ -29,24 +36,43 @@ app.use(bodyParser.urlencoded({
     extended:true
 }));
 
-app.use(express.static(__dirname))
+app.use(express.static(__dirname+'/../'))
+
+app.use(sessions({
+    secret: 'secretkey',
+    saveUninitialized: true,
+    cookie: {maxAge: oneDay},
+    resave: false
+}));
+
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+
+app.use(cookieParser());
+
+let users = []
+let passwords = []
+
+var session = []
+
+let sessionCount = 0
 
 app.get('/hotel-booking',function (req,res){
-    res.sendFile(__dirname+'/index.html')
+    res.sendFile(__dirname+'/../index.html')
 })
 
 app.get("/hotel-booking/index.html", function (req,res){
-    res.sendFile(__dirname+'/index.html')
+    res.sendFile(__dirname+'/../index.html')
 })
 
 app.get("/hotel-booking/reception.html", function (req,res){
-    res.sendFile(__dirname+'/reception.html')
+    res.sendFile(__dirname+'/../reception.html')
 })
 
 app.get("/hotel-booking/booked", function (req,res){
     const id = req.query.id;
     if(req.query.redir==='true'){
-        res.sendFile(__dirname+'/booked.html');
+        res.sendFile(__dirname+'/../booked.html');
         return
     }
     const query = 'SELECT * FROM bookings WHERE booking_id = '+id;
@@ -106,24 +132,29 @@ app.get("/hotel-booking/booked/booked-data", function (req,res){
     const cursor = client.query(new Cursor(query));
 
     cursor.read(1, (err,rows) => {
-        if (err == null){
-            const booking = rows[0];
-            cursor.close();
-            if( booking.booking_id === id){
-                const str = 'SELECT * FROM booking_rooms WHERE booking_id = '+id;
-                const cursor1 = client.query(new Cursor(str));
-                cursor1.read(1, (err1,rows1) => {
-                    const rooms = rows1[0];
-                    cursor1.close();
-                    const data = JSON.stringify({
-                        status: true,
-                        d1: btoa(JSON.stringify(booking)),
-                        d2: btoa(JSON.stringify(rooms))
-                    })
+        if (err == null ){
+            if(rows.length>0){
+                const booking = rows[0];
+                cursor.close();
+                if( booking.booking_id === id){
+                    const str = 'SELECT * FROM booking_rooms WHERE booking_id = '+id;
+                    const cursor1 = client.query(new Cursor(str));
+                    cursor1.read(1, (err1,rows1) => {
+                        const rooms = rows1[0];
+                        cursor1.close();
+                        const data = JSON.stringify({
+                            status: true,
+                            d1: btoa(JSON.stringify(booking)),
+                            d2: btoa(JSON.stringify(rooms))
+                        })
 
-                    res.send(data);
-                })
+                        res.send(data);
+                    })
+                }
+            }else{
+                res.send(JSON.stringify({status: false, reason: 'Invalid Booking ID'}))
             }
+
         }else{
             if(err.routine === 'errorMissingColumn'){
                 res.send(JSON.stringify({
@@ -185,11 +216,11 @@ app.post("/hotel-booking/reception.html/booked", function (req, res) {
                                     const rooms_data = rows;
                                     cursor3.close();
 
-                                    pool.query(`UPDATE rooms SET booked=${parseInt(rooms_data[0].booked)+parseInt(rooms.single)}, available=${parseInt(rooms_data[0].total)-parseInt(rooms_data[0].booked)} WHERE type='single'`)
-                                    pool.query(`UPDATE rooms SET booked=${parseInt(rooms_data[1].booked)+parseInt(rooms.double)}, available=${parseInt(rooms_data[1].total)-parseInt(rooms_data[1].booked)} WHERE type='double'`)
-                                    pool.query(`UPDATE rooms SET booked=${parseInt(rooms_data[2].booked)+parseInt(rooms.triple)}, available=${parseInt(rooms_data[2].total)-parseInt(rooms_data[2].booked)} WHERE type='triple'`)
-                                    pool.query(`UPDATE rooms SET booked=${parseInt(rooms_data[3].booked)+parseInt(rooms.quad)}, available=${parseInt(rooms_data[3].total)-parseInt(rooms_data[3].booked)} WHERE type='quad'`)
-                                    pool.query(`UPDATE rooms SET booked=${parseInt(rooms_data[4].booked)+parseInt(rooms.king)}, available=${parseInt(rooms_data[4].total)-parseInt(rooms_data[4].booked)} WHERE type='king'`)
+                                    pool.query(`UPDATE rooms SET booked=${parseInt(rooms_data[0].booked)+parseInt(rooms.single)}, available=${parseInt(rooms_data[0].available)-parseInt(rooms.single)} WHERE type='single'`)
+                                    pool.query(`UPDATE rooms SET booked=${parseInt(rooms_data[1].booked)+parseInt(rooms.double)}, available=${parseInt(rooms_data[1].available)-parseInt(rooms.double)} WHERE type='double'`)
+                                    pool.query(`UPDATE rooms SET booked=${parseInt(rooms_data[2].booked)+parseInt(rooms.triple)}, available=${parseInt(rooms_data[2].available)-parseInt(rooms.triple)} WHERE type='triple'`)
+                                    pool.query(`UPDATE rooms SET booked=${parseInt(rooms_data[3].booked)+parseInt(rooms.quad)}, available=${parseInt(rooms_data[3].available)-parseInt(rooms.quad)} WHERE type='quad'`)
+                                    pool.query(`UPDATE rooms SET booked=${parseInt(rooms_data[4].booked)+parseInt(rooms.king)}, available=${parseInt(rooms_data[4].available)-parseInt(rooms.king)} WHERE type='king'`)
 
                                 })
 
@@ -218,15 +249,24 @@ app.get("/hotel-booking/cancel",function (req,res){
 
             const otp = Math.floor(Math.random() * (999999 - 100000) + 100000);
 
-            const cursor = client.query(new Cursor('SELECT otp FROM cancellation WHERE booking_id='+id));
+            const cursor = client.query(new Cursor('SELECT * FROM cancellation WHERE booking_id='+id));
 
             cursor.read(1, (err,rows)=>{
-                if(err==null){
-                    pool.query(`UPDATE cancellation SET otp=${otp} WHERE booking_id=${id}`)
-                }else{
-                    pool.query(`INSERT INTO cancellation (booking_id,otp,cancelled) VALUES (${id},${otp},false)`)
-                }
                 cursor.close();
+                if(err==null){
+                    if(rows.length>0){
+                        const tries = rows[0].tries;
+                        if(tries<5){
+                            pool.query(`UPDATE cancellation SET otp=${otp} WHERE booking_id=${id}`)
+                        }else{
+
+                        }
+                    }else{
+                        pool.query(`INSERT INTO cancellation (booking_id,otp,cancelled,tries) VALUES (${id},${otp},false,0)`)
+                    }
+                }else{
+                    pool.query(`INSERT INTO cancellation (booking_id,otp,cancelled,tries) VALUES (${id},${otp},false,0)`)
+                }
             })
             console.log(otp)
             res.send(JSON.stringify({
@@ -254,42 +294,48 @@ app.post("/hotel-booking/cancel-conf",function (req,res){
 
     cursor.read(1, (err,rows)=>{
         if(err==null){
-            const otp1 = rows[0].otp;
-            cursor.close();
-            console.log(otp,otp1,id)
-            if(parseInt(otp1)===parseInt(otp)){
-                pool.query('UPDATE bookings SET status=false WHERE booking_id='+id);
-                const cursor1 = client.query(new Cursor('SELECT * FROM "booking-rooms" WHERE booking_id='+id));
-                cursor1.read(1, (err,rows)=>{
-                    if(err==null){
-                        const booked = rows[0];
-                        cursor1.close();
+            if(rows.length>0){
+                const otp1 = rows[0].otp;
+                cursor.close();
+                console.log(otp,otp1,id)
+                if(parseInt(otp1)===parseInt(otp)){
+                    pool.query('UPDATE bookings SET status=false WHERE booking_id='+id);
+                    const cursor1 = client.query(new Cursor('SELECT * FROM booking_rooms WHERE booking_id='+id));
+                    cursor1.read(1, (err,rows)=>{
+                        if(err==null){
+                            const booked = rows[0];
+                            cursor1.close();
 
-                        const cursor2 = client.query(new Cursor('SELECT * FROM rooms ORDER BY rent'));
+                            const cursor2 = client.query(new Cursor('SELECT * FROM rooms ORDER BY rent'));
 
-                        cursor2.read(5, (err,rows)=>{
-                            if(err==null){
-                                pool.query(`UPDATE rooms SET booked=${rows[0].booked - booked.single}, available=${rows[0].available + booked.single} WHERE type='single'`)
-                                pool.query(`UPDATE rooms SET booked=${rows[1].booked - booked.double}, available=${rows[1].available + booked.double} WHERE type='double'`)
-                                pool.query(`UPDATE rooms SET booked=${rows[2].booked - booked.triple}, available=${rows[2].available + booked.triple} WHERE type='triple'`)
-                                pool.query(`UPDATE rooms SET booked=${rows[3].booked - booked.quad}, available=${rows[3].available + booked.quad} WHERE type='quad'`)
-                                pool.query(`UPDATE rooms SET booked=${rows[4].booked - booked.king}, available=${rows[4].available + booked.king} WHERE type='king'`)
-                            }
-                        })
+                            cursor2.read(5, (err,rows)=>{
+                                cursor2.close();
+                                if(err==null){
+                                    if(rows.length>0){
+                                        pool.query(`UPDATE rooms SET booked=${rows[0].booked - booked.single}, available=${rows[0].available + booked.single} WHERE type='single'`)
+                                        pool.query(`UPDATE rooms SET booked=${rows[1].booked - booked.double}, available=${rows[1].available + booked.double} WHERE type='double'`)
+                                        pool.query(`UPDATE rooms SET booked=${rows[2].booked - booked.triple}, available=${rows[2].available + booked.triple} WHERE type='triple'`)
+                                        pool.query(`UPDATE rooms SET booked=${rows[3].booked - booked.quad}, available=${rows[3].available + booked.quad} WHERE type='quad'`)
+                                        pool.query(`UPDATE rooms SET booked=${rows[4].booked - booked.king}, available=${rows[4].available + booked.king} WHERE type='king'`)
+                                    }
+                                }
+                            })
 
-                        cursor2.close();
 
-                        res.send(JSON.stringify({
-                            status: true
-                        }))
-                    }
-                })
+                            res.send(JSON.stringify({
+                                status: true
+                            }))
+                        }
+                    })
+                }else{
+                    pool.query(`UPDATE cancellation SET tries = (SELECT tries FROM cancellation WHERE booking_id = ${id})+1 WHERE booking_id = ${id}`)
+                    res.send(JSON.stringify({
+                        status:false,
+                        reason: 'Invalid OTP'
+                    }))
+                }
             }else{
-                //pool.query('UPDATE cancellation SET ')
-                res.send(JSON.stringify({
-                    status:false,
-                    reason: 'Invalid OTP'
-                }))
+                console.log()
             }
         }else{
             res.send(JSON.stringify({
@@ -298,6 +344,64 @@ app.post("/hotel-booking/cancel-conf",function (req,res){
             }))
         }
     })
+})
+
+app.get('/login',(req,res)=>{
+    res.sendFile(path.resolve(__dirname+'/../employee/index.html'))
+})
+
+
+var ud = []
+
+app.post('/check', (req,res)=>{
+    const id = atob(JSON.parse(req.body.data).d1)
+    const pass = atob(JSON.parse(req.body.data).d2)
+    console.log(id,pass)
+    const cursor = client.query(new Cursor(`SELECT * from users WHERE user_id='${id}'`));
+
+    cursor.read(1, (err,rows)=>{
+        if(err==null){
+            if(rows.length>0){
+                if(pass==rows[0].password){
+                    var se = req.session;
+                    se.userid = id;
+                    se.seid = sessionCount;
+                    session[sessionCount] = se;
+                    ud[sessionCount] = JSON.stringify({
+                        id: rows[0].user_id,
+                        name: rows[0].name,
+                        contact: rows[0].contact
+                    });
+                    sessionCount++;
+                    console.log(req.session)
+                    res.send(JSON.stringify({status: 'true'}))
+                }else{
+                    res.send(JSON.stringify({status: 'false', reason: 'pass'}))
+                }
+            }else{
+                res.send(JSON.stringify({status: 'false', reason: 'id'}))
+            }
+        }
+        cursor.close()
+    })
+})
+
+
+app.get('/dashboard', (req,res)=>{
+    console.log(`user logged in: ${req.session.seid}`);
+    res.sendFile(path.resolve(__dirname+'/../employee/dashboard.html'))
+})
+
+app.post('/employee', (req,res)=>{
+    console.log(req.session.userid)
+    res.send(ud[req.session.seid])
+})
+
+app.get('/logout',(req,res)=>{
+    const seid = req.session.seid
+    ud[seid]=null
+    req.session.destroy();
+    res.redirect('/login')
 })
 
 app.listen(3000,function (){

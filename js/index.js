@@ -3,7 +3,6 @@
 
 function fade(images) {
 
-
     let top = 2;
 
     let cur = images.length - 1;
@@ -108,35 +107,36 @@ function previousPic(){
     var area = document.getElementById('room-gallery')
     var width = area.offsetWidth+20;
     var prevPic = area.scrollLeft-width;
-    var interval = setInterval(scroll,1);
 
     function scroll(){
         if(area.scrollLeft === prevPic || area.scrollLeft === 0){
-            clearInterval(interval)
             $('.arrow-container').css('visibility','visible')
             return
         }
-        area.scrollTo(area.scrollLeft-2,0)
+        area.scrollTo(area.scrollLeft-1,0)
+        setTimeout(()=>{scroll()},1)
+    }
+    scroll()
+}
 
-    }}
 
 function nextPic(){
     $('.arrow-container').css('visibility','hidden')
     var area = document.getElementById('room-gallery')
-    var width = area.offsetWidth+20;
+    var width = $('.images').width()+20;
+    console.log(width,document.getElementById('room-gallery').offsetWidth)
     var nextPic = area.scrollLeft+width;
     var limit = area.scrollWidth;
-    var interval = setInterval(scroll,1);
 
     function scroll(){
         if(area.scrollLeft === nextPic || nextPic >= limit){
-            clearInterval(interval)
             $('.arrow-container').css('visibility','visible')
             return
         }
-        area.scrollTo(area.scrollLeft+2,0)
+        area.scrollTo(area.scrollLeft+1,0)
+        setTimeout(()=>{scroll()},1)
     }
-
+    scroll()
 
 }
 
@@ -144,20 +144,11 @@ function nextPic(){
 function showRooms(){
     const container = $('.image-container');
     const img = $('#caret-img');
-    console.log(container.css('width'))
     if (container.css('display') === 'none')
     {
         setTimeout(() => {$('.image-container').fadeIn(); $('.room-selectors').fadeIn()}, 100)
         img.css('transform', 'rotateZ(0deg)');
-
-
-
         addImages('single');
-
-
-
-
-
     } else {
         setTimeout(() => {$('.image-container').fadeOut(); $('.room-selectors').fadeOut()}, 100)
         img.css('transform', 'rotateZ(180deg)');
@@ -176,20 +167,19 @@ function addImages(directory){
     }
     var i=1;
 
-    var interval = setInterval(add,30);
-
     function add(){
         var a = document.createElement('div')
-        a.setAttribute('class', 'col-auto images')
+        a.setAttribute('class', 'row-auto images')
 
         var b = new Image();
         b.onload = ()=>{
             a.appendChild(b);
             container.appendChild(a);
             i++;
+            add();
         }
-        b.onerror = ()=>{console.log(i); clearInterval(interval);}
+        b.onerror = ()=>{console.log(i); }
         b.src='/images/rooms/' + directory + '/' + i + '.webp'
     }
+    add()
 }
-

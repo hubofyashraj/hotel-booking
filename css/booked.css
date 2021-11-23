@@ -139,6 +139,7 @@ button:hover{
     background-color: transparent;
     color: #f1cfa0;
     text-align: left;
+    right: 1.7em;
 }
 
 .close{

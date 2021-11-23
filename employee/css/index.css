@@ -1,0 +1,58 @@
+html, body{
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background: url('/employee/images/bg1.jpg') top;
+    background-size: cover;
+}
+
+.fd{
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(68, 47, 47, 0.32);
+    border-radius: 1em;
+    width: 30em;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    padding: 2em 5em;
+
+}
+
+.fd input{
+    margin-top: 1em;
+    padding-left: 1em;
+    border: solid aqua;
+    border-width: 0 0 1px 0 ;
+    border-radius: 0.3em;
+    color: #f1cfa0;
+    outline: none;
+    background: rgba(0, 255, 255, 0.26);
+}
+
+input[type=submit]{
+    background: rgba(0, 255, 255, 0.11);
+    color: #f1cfa0;
+    border: 1px solid aqua;
+}
+
+input[type=submit]:hover {
+    background: rgba(0, 255, 255, 0.06);
+    color: rgba(241, 207, 160, 0.67);
+    border: 1px solid rgba(0, 255, 255, 0.7);
+}
+
+form p{
+    margin: 0;
+    color: #39ff02;
+    padding-left: 1em;
+}
+
+.ltxt{
+    text-align: center;
+    color: rgb(0, 139, 255);
+}
+
+::placeholder{
+    color: rgba(245, 222, 179, 0.59);
+}

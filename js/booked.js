@@ -21,8 +21,12 @@ $.ajax({
         if(data.status===true){
             const booking = JSON.parse(atob(data.d1));
             const rooms = JSON.parse(atob(data.d2));
+            const status = booking.status==='true'?'booked':'cancelled';
+            if(booking.status==='false'){
+                $('.submitbtn').css('display','none')
+            }
             document.getElementById('booking_id').innerHTML=booking.booking_id;
-            document.getElementById('status').innerHTML=booking.status;
+            document.getElementById('status').innerHTML=status;
             document.getElementById('name').innerHTML=booking.user_name;
             document.getElementById('email').innerHTML=booking.email;
             document.getElementById('guestCount').innerHTML=booking.guests_count;
