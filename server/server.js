@@ -373,7 +373,6 @@ app.post('/check', (req,res)=>{
                         contact: rows[0].contact
                     });
                     sessionCount++;
-                    console.log(req.session)
                     res.send(JSON.stringify({status: 'true'}))
                 }else{
                     res.send(JSON.stringify({status: 'false', reason: 'pass'}))
@@ -395,6 +394,32 @@ app.get('/dashboard', (req,res)=>{
 app.post('/employee', (req,res)=>{
     console.log(req.session.userid)
     res.send(ud[req.session.seid])
+})
+
+app.get('/getBookings',(req,res)=>{
+    const cursor = client.query(new Cursor('SELECT * FROM bookings '));
+    var rowCount = 0
+    var data = []
+
+
+        cursor.read(200, (err, rows)=>{
+            if(err==null){
+                if(rows.length>0){
+                    for(var i=0;i<rows.length;i++){
+                        rowCount++;
+                        console.log(rows[i])
+                        data[i]=rows[i];
+                    }
+                    cursor.close();
+                    console.log(data)
+                    res.send(JSON.stringify({
+                        total: rowCount,
+                        bookings: data
+                    }))
+                }
+            }
+        })
+
 })
 
 app.get('/logout',(req,res)=>{

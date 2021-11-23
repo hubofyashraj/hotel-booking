@@ -54,3 +54,10 @@ main{
     left: 50%;
     transform: translateX(-50%);
 }
+
+.bookings{
+    position: absolute;
+    width: 70%;
+    left: 50%;
+    transform: translateX(-50%);
+}
