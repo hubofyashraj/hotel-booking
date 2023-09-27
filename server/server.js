@@ -74,6 +74,7 @@ app.get("/hotel-booking/booked", function (req,res){
     const id = req.query.id;
     if(req.query.redir===true){
         res.sendFile(path.resolve(__dirname+'/../booked.html'));
+        console.log('sen')
         return
     }
     const query = 'SELECT * FROM bookings WHERE booking_id = \''+id+'\'';
