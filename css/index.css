@@ -4,11 +4,20 @@ html{
     user-select: none;
 }
 
+/*#xyz{*/
+/*    width:100vw;*/
+/*    height:100vh;*/
+/*    background:white;*/
+
+/*}*/
 body{
+    /*width: 100vw;*/
+    height: 100vh;
     background: url('/images/background0.jpg') no-repeat;
     background-size: cover;
     background-position-y: center;
     overflow-y: hidden;
+    /*background-color: #39ff02;*/
 }
 
 .availability{
@@ -109,8 +118,16 @@ input{
     -ms-transform: translateY(-50%);
 }
 
+
+.sec-img:hover{
+    /*color: red;*/
+    /*transition: all 0.4s ease;*/
+
+    /*filter:*/
+/*drop-shadow(5px 5px 10px darkred)*/
+}
 .action{
-    height: 83px;
+    height: 60px;
 }
 
 .action img{
@@ -119,12 +136,18 @@ input{
 }
 
 .action:hover img{
-    transition: max-height 5s;
-    max-height: 50px;
+
+    /*filter:drop-shadow(5px 5px 8px darkred);*/
+    /*transform: scale(0.75);*/
 }
 
 .main-img{
     transform: translateY(-100%);
+    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg) brightness(102%) contrast(102%)
+}
+.main-img:hover{
+    filter: drop-shadow(5px 5px 10px #ef8484) invert(87%) sepia(38%) saturate(4130%) hue-rotate(304deg) brightness(98%) contrast(92%)
+    /*transform: translate(0);*/
 }
 
 .messenger{

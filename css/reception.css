@@ -6,9 +6,14 @@ html{
 
 body{
     background: url('/images/background_image.jpg') no-repeat;
+    height: 100vh;
     background-size: cover;
     background-position-y: top;
     overflow: hidden;
+
+}
+
+.container{
 }
 
 .availability{
@@ -17,7 +22,7 @@ body{
     width: 20em;
     padding: 2em;
     bottom: 10em;
-    right: 5em;
+    right: 4em;
     display: none;
 }
 
@@ -89,6 +94,10 @@ body{
     transform: translateY(-80%) translateX(-72%);
 }
 
+#userForm p{
+    color: red;
+}
+
 .inputs{
 }
 
@@ -107,6 +116,7 @@ body{
     font-family: "Comic Sans MS";
     font-style: oblique;
     cursor: url('/images/cursor.cur'), auto;
+
 }
 
 .inputs input:hover{

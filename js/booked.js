@@ -21,7 +21,7 @@ $.ajax({
         if(data.status===true){
             const booking = JSON.parse(atob(data.d1));
             const rooms = JSON.parse(atob(data.d2));
-            const status = booking.status==='true'?'booked':'cancelled';
+            const status = booking.status===true?'booked':'cancelled';
             if(booking.status==='false'){
                 $('.submitbtn').css('display','none')
             }

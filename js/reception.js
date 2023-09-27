@@ -117,7 +117,7 @@ function checkFields(){
 
 
 function checkAvailability(){
-    fade(document.getElementsByClassName('check-img'))
+    // fade(document.getElementsByClassName('check-img'))
     $.ajax({
         url: '/hotel-booking/available',
         type: 'GET',
@@ -178,16 +178,18 @@ function proceed(){
             success: [
                 function(result){
                     console.log(result)
+                    console.log('hello')
                     if(result.status === true){
                         const booking_id = result.booking_id;
                         $.ajax({
-                            url:`/hotel-booking/booked?id=${booking_id}`,
+                            url:`/hotel-booking/booked?id=${booking_id}&redir=${false}`,
                             type:'GET',
                             dataType:'json',
                             success: [
                                 function (result){
                                     console.log(result);
                                     if(result.status === true){
+                                        console.log(result.status)
                                         location.href=`/hotel-booking/booked?id=${booking_id}&redir=${true}`
                                     }else{
                                         alert('Invalid Booking ID');
@@ -197,8 +199,12 @@ function proceed(){
                         })
                     }else{
                         if(result.reason==='Rooms Not Available'){
-                            var available = atob(result.data);
-                            console.log(available)
+                            console.log("cnt get here?")
+                            // console.log(result.data)
+                            const available = result.data;
+                            // console.log(available)
+                            console.log('hellos')
+                            // $('.availability').style.display='block';
                             $('.availability').fadeIn(1000);
                             $('#availableSingle').text(available.single);
                             $('#availableDouble').text(available.double);

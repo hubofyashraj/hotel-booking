@@ -11,11 +11,13 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/js/index.js"></script>
 </head>
-<body class="container">
+<body id = "xyz"  >
+<div class = "container">
     <div id="actions" class="actions d-flex flex-column">
-        <div class="p-2 action btn" style="width: 9.6em" onclick="book()"><img class="book-img sec-img" src="/images/bloodthirsty.png"><br><img class="book-img main-img" id="book" src="/images/book.png"></div>
-        <div class="p-2 action btn" style="width: 36em" onclick="checkAvailability()"><img class="check-img sec-img" src="/images/check-bloodthirsty.png"><br><img class="check-img main-img" src="/images/check.png"></div>
-        <div class="p-2 action btn" style="width: 29.2em" onclick="cancelBooking()"><img class="cancel-img sec-img" src="/images/cancel-bloodthirsty.png"><br><img class="cancel-img main-img" src="/images/cancel.png"> </div>
+
+        <div class="p-2 action btn" style="width: 9.6em" onclick="book()"><img class="book-img sec-img" src="/images/a.png"><br><img class="book-img main-img" id="book" src="/images/a.png"></div>
+        <div class="p-2 action btn" style="width: 36em" onclick="checkAvailability()"><img class="check-img sec-img" src="/images/b.png"><br><img class="check-img main-img" src="/images/b.png"></div>
+        <div class="p-2 action btn" style="width: 29.2em" onclick="cancelBooking()"><img class="cancel-img sec-img" src="/images/c.png"><br><img class="cancel-img main-img" src="/images/c.png"> </div>
         <div class="search">
             <input placeholder="Booking ID" id="booking_id" >
             <button onclick="searchBooking()" class="searchbar">search</button>
@@ -68,6 +70,6 @@
         </div>
 
     </div>
-
+</div>
 </body>
 </html>

@@ -84,7 +84,7 @@ function searchBooking(){
     }
 
     $.ajax({
-        url:`/hotel-booking/booked?id=${id}`,
+        url:`/hotel-booking/booked?id=${id}&redir=${false}`,
         type:'GET',
         dataType:'json',
         success: [
